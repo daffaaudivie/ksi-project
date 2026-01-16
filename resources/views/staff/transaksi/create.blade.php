@@ -1,3 +1,5 @@
+@section('title', 'Tambah Data')
+
 <x-app-layout>
     <div class="py-8 bg-gray-50">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">

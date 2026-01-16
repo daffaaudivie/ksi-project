@@ -1,3 +1,5 @@
+@section('title', 'Data Pelanggan')
+
 <x-app-layout>
     <div class="py-6">
         <!-- Header -->

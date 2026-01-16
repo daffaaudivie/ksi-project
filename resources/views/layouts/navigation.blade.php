@@ -10,7 +10,7 @@ default => '/',
 };
 @endphp
 
-<div x-data="{ sidebarOpen: true }" class="min-h-screen bg-gray-100">
+<div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-100">
     <!-- Top Navigation Bar -->
     <nav class="bg-white border-b border-gray-100 fixed w-full z-30 top-0">
         <div class="px-4 sm:px-6 lg:px-8">

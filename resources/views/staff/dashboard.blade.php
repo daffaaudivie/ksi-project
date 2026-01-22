@@ -1,14 +1,13 @@
 @section('title', 'Dashboard')
 
 <x-app-layout>
-    {{-- Header Section (Jarak bawah dikurangi mb-6 -> mb-4) --}}
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 mb-4">
         <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
             {{ __('Database Pelanggan') }} - {{ auth()->user()->cabang->nama_cabang ?? 'Nama Cabang' }}
         </h2>
     </div>
 
-    {{-- Content Section (Padding atas dikurangi py-12 -> py-6) --}}
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
@@ -46,7 +45,6 @@
             {{-- Quick Actions & Latest Transactions Grid --}}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                {{-- Quick Actions (Mengambil 1 kolom di desktop) --}}
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg h-fit">
                     <div class="p-6 border-b border-gray-100">
                         <h3 class="text-lg font-bold text-gray-900">Aksi Cepat</h3>
@@ -67,7 +65,6 @@
                     </div>
                 </div>
 
-                {{-- Latest Transaksi (Mengambil 2 kolom di desktop) --}}
                 <div class="lg:col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                         <h3 class="text-lg font-bold text-gray-900">Transaksi Terakhir</h3>

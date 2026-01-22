@@ -14,14 +14,12 @@ class TransaksiPelangganRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // ===== DATA CUSTOMER =====
             'nama_customer' => ['required', 'string', 'max:150'],
             'no_hp' => ['required', 'string', 'max:20'],
             'email' => ['nullable', 'email', 'max:100'],
-            'alamat' => ['nullable', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:255'],
             'tipe_customer' => ['required', 'string', 'max:50'],
 
-            // ===== DATA TRANSAKSI =====
             'tanggal' => ['required', 'date'],
             'sumber_informasi' => ['required', 'string', 'max:50'],
             'keterangan' => ['nullable', 'string'],

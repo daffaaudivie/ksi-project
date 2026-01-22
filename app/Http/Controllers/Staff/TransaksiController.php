@@ -47,7 +47,7 @@ class TransaksiController extends Controller
             $query->where('sumber_informasi', $request->sumber_informasi);
         }
 
-        $transaksi = $query->paginate(15)->withQueryString();
+        $transaksi = $query->paginate(10)->withQueryString();
 
         return view('staff.transaksi.index', compact('transaksi'));
     }
@@ -107,7 +107,7 @@ class TransaksiController extends Controller
 
     public function show(TransaksiPelanggan $transaksi)
     {
-        // Check if transaksi belongs to user's cabang
+       
         if ($transaksi->id_cabang !== auth()->user()->id_cabang) {
             abort(403, 'Unauthorized action.');
         }
@@ -119,7 +119,7 @@ class TransaksiController extends Controller
 
     public function edit(TransaksiPelanggan $transaksi)
     {
-        // Check if transaksi belongs to user's cabang
+       
         if ($transaksi->id_cabang !== auth()->user()->id_cabang) {
             abort(403, 'Unauthorized action.');
         }

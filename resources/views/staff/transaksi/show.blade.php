@@ -24,7 +24,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                            class="inline-flex items-center px-4 py-2.5 bg-white border border-red-300 rounded-lg font-medium text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            class="inline-flex items-center px-4 py-2.5 bg-white border border-red-300 rounded-lg font-medium text-sm text-white bg-red-500 hover:bg-red-600 transition-colors">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
@@ -47,11 +47,6 @@
                         <div class="px-6 py-5 border-b border-gray-200">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-4">
-                                    <div class="w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center">
-                                        <span class="text-2xl font-bold text-white">
-                                            {{ strtoupper(substr($transaksi->customer->nama_customer, 0, 1)) }}
-                                        </span>
-                                    </div>
                                     <div>
                                         <h2 class="text-2xl font-bold text-gray-900">
                                             {{ $transaksi->customer->nama_customer }}
@@ -142,12 +137,13 @@
                                     <!-- Date -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            Tanggal
+                                            Hari / Tanggal
                                         </label>
+                                        <p class="text-sm text-gray-500 mt-0.5">{{ $transaksi->hari }}</p>
                                         <p class="text-base font-semibold text-gray-900">
                                             {{ $transaksi->tanggal->format('d M Y') }}
                                         </p>
-                                        <p class="text-sm text-gray-500 mt-0.5">{{ $transaksi->hari }}</p>
+
                                     </div>
 
                                     <!-- Source -->
@@ -163,7 +159,7 @@
                                     <!-- Default Type -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            Tipe Default
+                                            Tipe Kunjungan
                                         </label>
                                         <p class="text-base font-semibold text-gray-900">
                                             {{ $transaksi->customer->tipe_default->label() }}
@@ -221,32 +217,6 @@
                         </div>
                     </div>
 
-                    <!-- Creator Info -->
-                    <div class="bg-white rounded-lg shadow border border-gray-200">
-                        <div class="px-5 py-4 border-b border-gray-200">
-                            <h3 class="text-sm font-semibold text-gray-900">Dicatat Oleh</h3>
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center space-x-3">
-                                <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
-                                        <span class="text-sm font-bold text-white">
-                                            {{ strtoupper(substr($transaksi->creator->name, 0, 1)) }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-900">
-                                        {{ $transaksi->creator->name }}
-                                    </p>
-                                    <p class="text-xs text-gray-500 mt-0.5">
-                                        {{ $transaksi->created_at->format('d M Y, H:i') }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- System Info -->
                     <div class="bg-white rounded-lg shadow border border-gray-200">
                         <div class="px-5 py-4 border-b border-gray-200">
@@ -254,15 +224,9 @@
                         </div>
                         <div class="p-5 space-y-3">
                             <div class="flex items-center justify-between text-sm">
-                                <span class="text-gray-600">Dibuat</span>
+                                <span class="text-gray-600">Tanggal Pencatatan</span>
                                 <span class="font-medium text-gray-900">
                                     {{ $transaksi->created_at->format('d/m/Y H:i') }}
-                                </span>
-                            </div>
-                            <div class="flex items-center justify-between text-sm">
-                                <span class="text-gray-600">Diperbarui</span>
-                                <span class="font-medium text-gray-900">
-                                    {{ $transaksi->updated_at->format('d/m/Y H:i') }}
                                 </span>
                             </div>
                         </div>

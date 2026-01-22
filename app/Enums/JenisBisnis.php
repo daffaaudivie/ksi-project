@@ -27,7 +27,7 @@ enum JenisBisnis: string
     {
         return match ($this) {
             self::BENGKEL => 'Bengkel',
-            self::BENGKEL => 'BENGKEL',
+            self::RESTORAN => 'Restoran',
             self::WISATA => 'Wisata',
             self::LAINNYA => 'Lainnya',
         };

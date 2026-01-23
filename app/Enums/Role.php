@@ -66,7 +66,7 @@ enum Role: string
     {
         return true;
     }
-
+    
     public function canInputData(): bool
     {
         return true; 

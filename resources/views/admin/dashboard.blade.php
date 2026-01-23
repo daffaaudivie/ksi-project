@@ -20,9 +20,9 @@
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Customers</div>
                         <div class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($stats['total_customers']) }}</div>
-                        <div class="text-xs text-green-600 mt-2 font-medium">
+                        <!-- <div class="text-xs text-green-600 mt-2 font-medium">
                             +{{ number_format($stats['customer_baru_bulan_ini']) }} bulan ini
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -31,9 +31,9 @@
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Transaksi</div>
                         <div class="mt-2 text-3xl font-bold text-gray-900">{{ number_format($stats['total_transaksi']) }}</div>
-                        <div class="text-xs text-blue-600 mt-2 font-medium">
+                        <!-- <div class="text-xs text-blue-600 mt-2 font-medium">
                             +{{ number_format($stats['transaksi_bulan_ini']) }} bulan ini
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

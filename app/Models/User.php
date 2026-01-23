@@ -11,10 +11,10 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name',
+        'nama',
         'email',
         'password',
-        'cabang_id', 
+        'id_cabang', 
         'role',
         'is_active'
     ];
@@ -30,7 +30,6 @@ class User extends Authenticatable
         'role' => Role::class,
     ];
 
-    // Relasi
     public function cabang()
     {
         return $this->belongsTo(Cabang::class, 'id_cabang', 'id');

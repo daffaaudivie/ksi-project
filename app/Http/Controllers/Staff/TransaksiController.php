@@ -75,15 +75,24 @@ class TransaksiController extends Controller
                 $customer = Customer::create([
                     'nama_customer' => $request->nama_customer,
                     'no_hp' => $request->no_hp,
-                    'alamat_utama' => $request->alamat,
-                    'tipe_default' => $request->tipe_customer,
+                    'id_provinsi' => $request->id_provinsi,
+                    'nama_provinsi' => $request->nama_provinsi,
+                    'id_kota' => $request->id_kota,
+                    'nama_kota' => $request->nama_kota,
+                    'alamat_detail' => $request->alamat_detail,
                     'email' => $request->email,
+                    'catatan' => $request->catatan,
                 ]);
             } else {
-
                 $customer->update([
-                    'alamat_utama' => $request->alamat,
+                    'nama_customer' => $request->nama_customer,
+                    'id_provinsi' => $request->id_provinsi,
+                    'nama_provinsi' => $request->nama_provinsi,
+                    'id_kota' => $request->id_kota,
+                    'nama_kota' => $request->nama_kota,
+                    'alamat_detail' => $request->alamat_detail,
                     'email' => $request->email,
+                    'catatan' => $request->catatan,
                 ]);
             }
 
@@ -92,8 +101,8 @@ class TransaksiController extends Controller
                 'id_cabang' => $user->id_cabang,
                 'created_by' => $user->id,
                 'tanggal' => $request->tanggal,
-                'hari' => Carbon::parse($request->tanggal)->locale('id')->dayName,
                 'tipe_customer' => $request->tipe_customer,
+                'jumlah_rombongan' => $request->tipe_customer === 'Rombongan' ? $request->jumlah_rombongan : null,
                 'sumber_informasi' => $request->sumber_informasi,
                 'keterangan' => $request->keterangan,
             ]);
@@ -107,7 +116,7 @@ class TransaksiController extends Controller
 
     public function show(TransaksiPelanggan $transaksi)
     {
-       
+
         if ($transaksi->id_cabang !== auth()->user()->id_cabang) {
             abort(403, 'Unauthorized action.');
         }
@@ -119,7 +128,7 @@ class TransaksiController extends Controller
 
     public function edit(TransaksiPelanggan $transaksi)
     {
-       
+
         if ($transaksi->id_cabang !== auth()->user()->id_cabang) {
             abort(403, 'Unauthorized action.');
         }
@@ -133,15 +142,27 @@ class TransaksiController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $transaksi->update([
-            'id_customer' => $request->id_customer,
-            'tanggal' => $request->tanggal,
-            'hari' => Carbon::parse($request->tanggal)->locale('id')->dayName,
-            'tipe_customer' => $request->tipe_customer,
-            'alamat' => $request->alamat,
-            'sumber_informasi' => $request->sumber_informasi,
-            'keterangan' => $request->keterangan,
-        ]);
+        DB::transaction(function () use ($request, $transaksi) {
+            if ($transaksi->customer) {
+                $transaksi->customer->update([
+                    'nama_customer' => $request->nama_customer,
+                    'no_hp' => $request->no_hp,
+                    'id_provinsi' => $request->id_provinsi,
+                    'nama_provinsi' => $request->nama_provinsi,
+                    'id_kota' => $request->id_kota,
+                    'nama_kota' => $request->nama_kota,
+                    'email' => $request->email,
+                    'catatan' => $request->catatan,
+                ]);
+            }
+            $transaksi->update([
+                'tanggal' => $request->tanggal,
+                'tipe_customer' => $request->tipe_customer,
+                'jumlah_rombongan' => $request->tipe_customer === 'Rombongan' ? $request->jumlah_rombongan : null,
+                'sumber_informasi' => $request->sumber_informasi,
+                'keterangan' => $request->keterangan,
+            ]);
+        });
 
         return redirect()
             ->route('staff.transaksi.index')
@@ -160,6 +181,7 @@ class TransaksiController extends Controller
             ->route('staff.transaksi.index')
             ->with('success', 'Transaksi berhasil dihapus');
     }
+
     public function export(Request $request)
     {
         return Excel::download(

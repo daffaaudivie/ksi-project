@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="py-6">
-        <!-- Header -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
             <div class="flex items-center justify-between">
                 <div>
+                    {{-- Route ke staff Index --}}
                     <a href="{{ route('staff.transaksi.index') }}"
                         class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-3 transition-colors">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -12,14 +12,24 @@
                         Kembali ke Data Pelanggan
                     </a>
                     <h1 class="text-3xl font-bold text-gray-900">
-                        Detail Pelanggan
+                        Detail Pelanggan (Staff)
                     </h1>
                 </div>
 
                 <div class="flex gap-3">
+                    {{-- Tombol Edit (Fitur Tambahan untuk staff) --}}
+                    <a href="{{ route('staff.transaksi.edit', $transaksi->id) }}"
+                        class="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg font-medium text-sm text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Edit Data
+                    </a>
+
+                    {{-- Tombol Hapus --}}
                     <form action="{{ route('staff.transaksi.destroy', $transaksi->id) }}"
                         method="POST"
-                        onsubmit="return confirm('Yakin ingin menghapus data pelanggan ini?')"
+                        onsubmit="return confirm('Yakin ingin menghapus data pelanggan ini? Data akan hilang dari database.')"
                         class="inline-block">
                         @csrf
                         @method('DELETE')
@@ -38,12 +48,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                <!-- Main Content -->
                 <div class="lg:col-span-2 space-y-6">
 
-                    <!-- Customer Profile Card -->
                     <div class="bg-white rounded-lg shadow border border-gray-200">
-                        <!-- Header -->
                         <div class="px-6 py-5 border-b border-gray-200">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center space-x-4">
@@ -59,9 +66,10 @@
                                 @php
                                 $tipe = $transaksi->tipe_customer;
                                 $badgeStyle = match ($tipe) {
-                                \App\Enums\TipeCustomer::PERORANGAN => 'bg-gray-100 text-gray-700 border-gray-200',
-                                \App\Enums\TipeCustomer::ROMBONGAN => 'bg-gray-100 text-gray-700 border-gray-200',
-                                \App\Enums\TipeCustomer::FLEET => 'bg-gray-100 text-gray-700 border-gray-200',
+                                \App\Enums\TipeCustomer::PERORANGAN => 'bg-green-100 text-green-800 border-green-200',
+                                \App\Enums\TipeCustomer::ROMBONGAN => 'bg-purple-100 text-purple-800 border-purple-200',
+                                \App\Enums\TipeCustomer::FLEET => 'bg-yellow-100 text-yellow-800 border-yellow-200',
+                                default => 'bg-gray-100 text-gray-700 border-gray-200'
                                 };
                                 @endphp
                                 <span class="px-4 py-2 text-sm font-medium rounded-lg border {{ $badgeStyle }}">
@@ -70,15 +78,12 @@
                             </div>
                         </div>
 
-                        <!-- Content -->
                         <div class="p-6">
-                            <!-- Contact Section -->
                             <div class="mb-8">
                                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
                                     Informasi Kontak
                                 </h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Phone -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
                                             No. Handphone
@@ -92,7 +97,6 @@
                                         </a>
                                     </div>
 
-                                    <!-- Email -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-2">
                                             Email
@@ -112,41 +116,42 @@
                                 </div>
                             </div>
 
-                            <!-- Location -->
                             <div class="mb-8">
                                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                                    Lokasi
+                                    Alamat
                                 </h3>
                                 <div class="flex items-center">
                                     <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
+
                                     <span class="text-base text-gray-900">
-                                        {{ $transaksi->customer->alamat_utama ?? 'Tidak ada data' }}
+                                        {{ $transaksi->customer->nama_provinsi ?? '' }}
+
+                                        <span class="mx-2 text-gray-400 font-bold">-</span>
+
+                                        {{ $transaksi->customer->nama_kota ?? '' }}
                                     </span>
                                 </div>
                             </div>
 
-                            <!-- Transaction Details -->
                             <div class="pt-6 border-t border-gray-200">
                                 <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
                                     Informasi Kunjungan
                                 </h3>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <!-- Date -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            Hari / Tanggal
+                                            Tanggal
                                         </label>
-                                        <p class="text-sm text-gray-500 mt-0.5">{{ $transaksi->hari }}</p>
                                         <p class="text-base font-semibold text-gray-900">
                                             {{ $transaksi->tanggal->format('d M Y') }}
                                         </p>
 
+                                        <p class="text-sm text-gray-500 mt-0.5">{{ $transaksi->hari }}</p>
                                     </div>
 
-                                    <!-- Source -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
                                             Sumber Informasi
@@ -156,18 +161,20 @@
                                         </p>
                                     </div>
 
-                                    <!-- Default Type -->
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
                                             Tipe Kunjungan
                                         </label>
                                         <p class="text-base font-semibold text-gray-900">
-                                            {{ $transaksi->customer->tipe_default->label() }}
+                                            {{ $transaksi->tipe_customer->label() }}
                                         </p>
+                                        @if($transaksi->tipe_customer === \App\Enums\TipeCustomer::ROMBONGAN)
+                                        <p class="text-sm text-gray-500 mt-0.5">
+                                            {{ $transaksi->jumlah_rombongan }} Orang
+                                            @endif
                                     </div>
                                 </div>
 
-                                <!-- Notes -->
                                 @if($transaksi->keterangan)
                                 <div class="mt-6">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -186,10 +193,8 @@
 
                 </div>
 
-                <!-- Sidebar -->
                 <div class="lg:col-span-1 space-y-6">
 
-                    <!-- Branch Info -->
                     <div class="bg-white rounded-lg shadow border border-gray-200">
                         <div class="px-5 py-4 border-b border-gray-200">
                             <h3 class="text-sm font-semibold text-gray-900">Cabang</h3>
@@ -197,8 +202,8 @@
                         <div class="p-5">
                             <div class="flex items-start space-x-3">
                                 <div class="flex-shrink-0">
-                                    <div class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                         </svg>
                                     </div>
@@ -217,17 +222,30 @@
                         </div>
                     </div>
 
-                    <!-- System Info -->
                     <div class="bg-white rounded-lg shadow border border-gray-200">
                         <div class="px-5 py-4 border-b border-gray-200">
                             <h3 class="text-sm font-semibold text-gray-900">Informasi Sistem</h3>
                         </div>
-                        <div class="p-5 space-y-3">
+                        <div class="p-5 space-y-4">
+                            {{-- Tanggal Pencatatan --}}
                             <div class="flex items-center justify-between text-sm">
                                 <span class="text-gray-600">Tanggal Pencatatan</span>
                                 <span class="font-medium text-gray-900">
                                     {{ $transaksi->created_at->format('d/m/Y H:i') }}
                                 </span>
+                            </div>
+
+                            {{-- Divider Tipis --}}
+                            <div class="border-t border-gray-100"></div>
+
+                            {{-- Diinput Oleh --}}
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-gray-600">Diinput Oleh</span>
+                                <div class="flex items-center text-right">
+                                    <div class="text-xs font-medium bg-gray-100 px-2 py-1 rounded text-gray-600">
+                                        {{ $transaksi->creator->nama ?? 'Unknown User' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

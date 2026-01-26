@@ -35,7 +35,7 @@
                                     </option>
                                     @endforeach
                                 </select>
-                                <p class="text-xs text-blue-500 mt-1">* Wajib dipilih karena Anda login sebagai Admin.</p>
+                                <p class="text-xs text-blue-700 mt-1">* Wajib dipilih karena Anda login sebagai Admin.</p>
                             </div>
 
                             <div class="border-t border-gray-200"></div>
@@ -86,7 +86,7 @@
                                     class="w-full rounded-lg border-blue-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
                                     placeholder="Masukkan jumlah orang"
                                     value="{{ old('jumlah_rombongan') }}">
-                                <p class="text-xs text-blue-500 mt-1">* Wajib diisi jika tipe customer adalah Rombongan.</p>
+                                <p class="text-xs text-blue-700 mt-1">* Wajib diisi jika tipe customer adalah Rombongan.</p>
                             </div>
 
                             <div class="border-t border-gray-200"></div>
@@ -111,9 +111,9 @@
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                         </svg>
-                                        No. WhatsApp / HP <span class="text-red-500">*</span>
+                                        No. WhatsApp / HP <span class="text-gray-400 font-normal">(Opsional)</span>
                                     </label>
-                                    <input type="text" name="no_hp" required
+                                    <input type="text" name="no_hp"
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
                                         placeholder="08xxxxxxxxxx"
                                         value="{{ old('no_hp') }}">

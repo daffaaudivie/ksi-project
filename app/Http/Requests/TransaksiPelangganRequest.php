@@ -18,7 +18,7 @@ class TransaksiPelangganRequest extends FormRequest
         $rules = [
             // Data Customer
             'nama_customer' => ['required', 'string', 'max:150'],
-            'no_hp'         => ['required', 'string', 'max:20'],
+            'no_hp'         => ['nullable', 'string', 'max:20'],
             'email'         => ['nullable', 'email', 'max:100'],
 
             // Lokasi (Opsional)

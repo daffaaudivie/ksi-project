@@ -63,12 +63,16 @@ class TransaksiController extends Controller
 
         DB::transaction(function () use ($request, $user) {
 
-            $customer = Customer::withTrashed()
-                ->where('no_hp', $request->no_hp)
-                ->first();
+            $customer = null;
 
-            if ($customer && $customer->trashed()) {
-                $customer->restore();
+            if ($request->filled('no_hp')) {
+                $customer = Customer::withTrashed()
+                    ->where('no_hp', $request->no_hp)
+                    ->first();
+
+                if ($customer && $customer->trashed()) {
+                    $customer->restore();
+                }
             }
 
             if (!$customer) {
@@ -144,6 +148,20 @@ class TransaksiController extends Controller
 
         DB::transaction(function () use ($request, $transaksi) {
             if ($transaksi->customer) {
+                if (
+                    $request->filled('no_hp') &&
+                    $request->no_hp !== $transaksi->customer->no_hp
+                ) {
+
+                    $existingCustomer = Customer::where('no_hp', $request->no_hp)
+                        ->where('id', '!=', $transaksi->customer->id)
+                        ->first();
+
+                    if ($existingCustomer) {
+                        throw new \Exception('Nomor HP sudah digunakan oleh customer lain');
+                    }
+                }
+
                 $transaksi->customer->update([
                     'nama_customer' => $request->nama_customer,
                     'no_hp' => $request->no_hp,

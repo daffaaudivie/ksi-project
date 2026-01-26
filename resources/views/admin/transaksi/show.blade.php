@@ -163,7 +163,7 @@
 
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700 mb-1">
-                                            Tipe Kunjungan
+                                            Tipe Customer
                                         </label>
                                         <p class="text-base font-semibold text-gray-900">
                                             {{ $transaksi->tipe_customer->label() }}

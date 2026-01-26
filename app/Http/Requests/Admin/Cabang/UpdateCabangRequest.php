@@ -20,8 +20,11 @@ class UpdateCabangRequest extends FormRequest
             'jenis_bisnis' => ['required', Rule::enum(JenisBisnis::class)],
             'alamat'       => ['required', 'string'],
             'telepon'      => ['nullable', 'string', 'max:20', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
-            'kota'         => ['required', 'string', 'max:80'],
             'is_active'    => ['sometimes', 'boolean'],
+            'id_provinsi' => 'sometimes|string|max:10',
+            'nama_provinsi' => 'sometimes|string|max:100',
+            'id_kota' => 'sometimes|string|max:10',
+            'nama_kota' => 'sometimes|string|max:100',
         ];
     }
 

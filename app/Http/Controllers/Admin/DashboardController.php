@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/Admin/DashboardController.php
 
 namespace App\Http\Controllers\Admin;
 
@@ -29,7 +28,7 @@ class DashboardController extends Controller
 
         $latest_transaksi = TransaksiPelanggan::with(['customer', 'cabang', 'user'])
             ->latest('tanggal')
-            ->limit(10)
+            ->limit(5)
             ->get();
 
         return view('admin.dashboard', compact('stats', 'latest_transaksi'));

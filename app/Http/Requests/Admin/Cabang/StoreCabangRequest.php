@@ -19,9 +19,12 @@ class StoreCabangRequest extends FormRequest
             'nama_cabang'  => ['required', 'string', 'max:200'],
             'jenis_bisnis' => ['required', Rule::enum(JenisBisnis::class)],
             'alamat'       => ['required', 'string'],
-            'telepon'      => ['nullable', 'string', 'max:20', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
-            'kota'         => ['required', 'string', 'max:80'],
+            'telepon'      => ['required', 'string', 'max:20', 'regex:/^([0-9\s\-\+\(\)]*)$/'],
             'is_active'    => ['sometimes', 'boolean'],
+            'id_provinsi' => 'required|string|max:10',
+            'nama_provinsi' => 'required|string|max:100',
+            'id_kota' => 'required|string|max:10',
+            'nama_kota' => 'required|string|max:100',
         ];
     }
 

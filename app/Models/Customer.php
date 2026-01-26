@@ -10,13 +10,15 @@ class Customer extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'customers';
+    protected $table = 'customer';
 
     protected $fillable = [
         'nama_customer',
         'no_hp',
-        'alamat_utama',
-        'tipe_default',
+        'id_provinsi',
+        'nama_provinsi',
+        'id_kota',
+        'nama_kota',
         'email',
         'catatan'
     ];
@@ -24,6 +26,18 @@ class Customer extends Model
     protected $casts = [
         'tipe_default' => TipeCustomer::class,
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            if (!$model->isForceDeleting()) {
+                $model->deleted_by = auth()->id();
+                $model->saveQuietly();
+            }
+        });
+    }
 
     public function transaksi()
     {

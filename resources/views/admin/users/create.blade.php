@@ -34,7 +34,7 @@
                                     </label>
                                     <input type="text" name="nama" required
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
-                                        placeholder="Contoh: John Doe"
+                                        placeholder="Contoh: Staff Desapa"
                                         value="{{ old('nama') }}">
                                     @error('nama')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

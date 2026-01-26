@@ -8,27 +8,46 @@ use App\Models\User;
 use App\Models\Customer;
 use App\Models\Cabang;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class TransaksiPelanggan extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'transaksi_pelanggan';
 
     protected $fillable = [
-        'id_customer', 
-        'id_cabang',    
+        'id_customer',
+        'id_cabang',
         'tanggal',
-        'hari',
         'tipe_customer',
+        'jumlah_rombongan',
         'sumber_informasi',
         'keterangan',
-        'created_by'   
+        'created_by'
     ];
 
     protected $casts = [
         'tanggal' => 'date',
+        'jumlah_rombongan' => 'integer',
         'tipe_customer' => TipeCustomer::class,
         'sumber_informasi' => SumberInformasi::class,
+        'deleted_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            if (!$model->isForceDeleting()) {
+                $model->deleted_by = auth()->id();
+                $model->saveQuietly();
+            }
+        });
+    }
 
     public function customer()
     {
@@ -45,24 +64,14 @@ class TransaksiPelanggan extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function creator()
+    public function updater()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function getHariIndonesiaAttribute()
+    public function creator()
     {
-        $days = [
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu',
-            'Sunday' => 'Minggu',
-        ];
-
-        return $days[$this->hari] ?? $this->hari;
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     public function scopeByCabang($query, $cabangId)
@@ -110,5 +119,21 @@ class TransaksiPelanggan extends Model
     {
         return $query->orderBy('tanggal', 'desc')
             ->orderBy('created_at', 'desc');
+    }
+
+
+    public function getIsRombonganAttribute()
+    {
+        return $this->tipe_customer === TipeCustomer::ROMBONGAN->value ||
+            $this->tipe_customer === 'Rombongan';
+    }
+
+    public function getHariAttribute()
+    {
+        if (!$this->tanggal) {
+            return '-';
+        }
+
+        return Carbon::parse($this->tanggal)->locale('id')->dayName;
     }
 }

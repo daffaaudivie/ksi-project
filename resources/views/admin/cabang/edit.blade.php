@@ -5,7 +5,6 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
 
             <div class="bg-white shadow-lg sm:rounded-xl overflow-hidden">
-                {{-- HEADER --}}
                 <div class="px-8 py-6 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
                     <h2 class="text-2xl font-bold text-gray-900">
                         {{ __('Edit Data Cabang') }}
@@ -15,7 +14,6 @@
                     </p>
                 </div>
 
-                {{-- FORM --}}
                 <form method="POST" action="{{ route('admin.cabang.update', $cabang->id) }}">
                     @csrf
                     @method('PUT')
@@ -24,9 +22,7 @@
 
                         <div class="space-y-6">
 
-                            {{-- ROW 1: NAMA CABANG & JENIS BISNIS --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {{-- Nama Cabang --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +39,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Jenis Bisnis --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,7 +49,7 @@
                                     <select name="jenis_bisnis" required
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out">
                                         <option value="" disabled>Pilih Jenis Bisnis</option>
-                                        @foreach(\App\Enums\JenisBisnis::cases() as $jenis)
+                                        @foreach($jenis_bisnis as $jenis)
                                         <option value="{{ $jenis->value }}"
                                             {{ old('jenis_bisnis', $cabang->jenis_bisnis->value) == $jenis->value ? 'selected' : '' }}>
                                             {{ $jenis->label() }}
@@ -67,30 +62,9 @@
                                 </div>
                             </div>
 
-                            {{-- DIVIDER --}}
                             <div class="border-t border-gray-200"></div>
 
-                            {{-- ROW 2: KOTA & TELEPON --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {{-- Kota --}}
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Kota <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" name="kota" required
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
-                                        placeholder="Nama Kota"
-                                        value="{{ old('kota', $cabang->kota) }}">
-                                    @error('kota')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Telepon --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,31 +80,7 @@
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
-                            </div>
 
-                            {{-- DIVIDER --}}
-                            <div class="border-t border-gray-200"></div>
-
-                            {{-- ROW 3: ALAMAT & STATUS (Sesuai request terakhir) --}}
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
-
-                                {{-- Alamat Lengkap --}}
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-                                        Alamat Lengkap <span class="text-red-500">*</span>
-                                    </label>
-                                    <textarea name="alamat" rows="3" required
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
-                                        placeholder="Masukkan alamat lengkap cabang...">{{ old('alamat', $cabang->alamat) }}</textarea>
-                                    @error('alamat')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Status Active --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,12 +93,65 @@
                                         <option value="0" {{ old('is_active', $cabang->is_active) == 0 ? 'selected' : '' }}>Nonaktif</option>
                                     </select>
                                 </div>
-
                             </div>
+
+                            <div class="border-t border-gray-200"></div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        Provinsi <span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="id_provinsi" id="id_provinsi" required
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out bg-white">
+                                        <option value="">Pilih Provinsi</option>
+                                    </select>
+                                    <input type="hidden" name="nama_provinsi" id="nama_provinsi" value="{{ old('nama_provinsi', $cabang->nama_provinsi) }}">
+                                    @error('id_provinsi')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                        Kota / Kabupaten <span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="id_kota" id="id_kota" disabled required
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out bg-gray-100 cursor-not-allowed">
+                                        <option value="">Pilih Provinsi Terlebih Dahulu</option>
+                                    </select>
+                                    <input type="hidden" name="nama_kota" id="nama_kota" value="{{ old('nama_kota', $cabang->nama_kota) }}">
+                                    @error('nama_kota')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                    </svg>
+                                    Alamat Lengkap <span class="text-red-500">*</span>
+                                </label>
+                                <textarea name="alamat" rows="3" required
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
+                                    placeholder="Masukkan alamat lengkap cabang...">{{ old('alamat', $cabang->alamat) }}</textarea>
+                                @error('alamat')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                         </div>
 
-                        {{-- FOOTER ACTIONS --}}
-                        <div class="px-8 py-6 bg-gray-50 border-t border-gray-200 flex items-center justify-end gap-3">
+                        <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-end gap-3">
                             <a href="{{ route('admin.cabang.index') }}"
                                 class="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
                                 Batal
@@ -162,9 +165,105 @@
                                 Perbarui Cabang
                             </button>
                         </div>
+                    </div>
                 </form>
 
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const provinsiSelect = document.getElementById('id_provinsi');
+            const provinsiNamaInput = document.getElementById('nama_provinsi');
+            const kotaSelect = document.getElementById('id_kota');
+            const kotaNamaInput = document.getElementById('nama_kota');
+
+            const oldProvinsiId = "{{ old('id_provinsi', $cabang->id_provinsi) }}";
+            const oldKotaId = "{{ old('id_kota', $cabang->id_kota) }}";
+
+            const BASE_URL_API = 'https://www.emsifa.com/api-wilayah-indonesia/api';
+
+            fetch(`${BASE_URL_API}/provinces.json`)
+                .then(res => res.json())
+                .then(provinces => {
+                    provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
+
+                    provinces.forEach(province => {
+                        const option = document.createElement('option');
+                        option.value = province.id;
+                        option.textContent = province.name;
+
+                        if (province.id == oldProvinsiId) {
+                            option.selected = true;
+                        }
+
+                        provinsiSelect.appendChild(option);
+                    });
+
+                    if (oldProvinsiId) {
+                        loadKota(oldProvinsiId, oldKotaId);
+                    }
+                })
+                .catch(error => {
+                    console.error('Gagal memuat provinsi:', error);
+                    provinsiSelect.innerHTML = '<option value="">Gagal memuat provinsi</option>';
+                });
+
+            provinsiSelect.addEventListener('change', function() {
+                const provinceId = this.value;
+                const provinceName = this.options[this.selectedIndex]?.text || '';
+
+                provinsiNamaInput.value = provinceId ? provinceName : '';
+                loadKota(provinceId, null);
+            });
+
+            kotaSelect.addEventListener('change', function() {
+                const kotaName = this.options[this.selectedIndex]?.text || '';
+                kotaNamaInput.value = this.value ? kotaName : '';
+            });
+
+            function loadKota(provinceId, selectedKotaId = null) {
+                kotaSelect.innerHTML = '<option value="">Memuat kota...</option>';
+                kotaSelect.disabled = true;
+                kotaSelect.classList.add('bg-gray-100', 'cursor-not-allowed');
+                kotaSelect.classList.remove('bg-white');
+                kotaNamaInput.value = '';
+
+                if (!provinceId) {
+                    kotaSelect.innerHTML = '<option value="">Pilih Provinsi Terlebih Dahulu</option>';
+                    return;
+                }
+
+                fetch(`${BASE_URL_API}/regencies/${provinceId}.json`)
+                    .then(res => res.json())
+                    .then(regencies => {
+                        kotaSelect.innerHTML = '<option value="">Pilih Kota / Kabupaten</option>';
+
+                        regencies.forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city.id;
+                            option.textContent = city.name;
+
+                            if (selectedKotaId && city.id == selectedKotaId) {
+                                option.selected = true;
+                                kotaNamaInput.value = city.name;
+                            }
+
+                            kotaSelect.appendChild(option);
+                        });
+
+                        kotaSelect.disabled = false;
+                        kotaSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                        kotaSelect.classList.add('bg-white');
+                    })
+                    .catch(error => {
+                        console.error('Gagal memuat kota:', error);
+                        kotaSelect.innerHTML = '<option value="">Gagal memuat kota</option>';
+                    });
+            }
+        });
+    </script>
+    @endpush
 </x-app-layout>

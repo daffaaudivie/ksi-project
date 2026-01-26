@@ -19,12 +19,9 @@
 
                     <div class="px-8 py-8">
 
-                        {{-- FORMULIR DATA LENGKAP --}}
                         <div class="space-y-6">
 
-                            {{-- ROW 1: NAMA CABANG & JENIS BISNIS --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {{-- Nama Cabang --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,7 +38,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Jenis Bisnis --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,7 +48,7 @@
                                     <select name="jenis_bisnis" required
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out">
                                         <option value="" disabled selected>Pilih Jenis Bisnis</option>
-                                        @foreach(\App\Enums\JenisBisnis::cases() as $jenis)
+                                        @foreach($jenis_bisnis as $jenis)
                                         <option value="{{ $jenis->value }}" {{ old('jenis_bisnis') == $jenis->value ? 'selected' : '' }}>
                                             {{ $jenis->label() }}
                                         </option>
@@ -64,30 +60,9 @@
                                 </div>
                             </div>
 
-                            {{-- DIVIDER --}}
                             <div class="border-t border-gray-200"></div>
 
-                            {{-- ROW 2: KOTA & TELEPON --}}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {{-- Kota --}}
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Kota <span class="text-red-500">*</span>
-                                    </label>
-                                    <input type="text" name="kota" required
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
-                                        placeholder="Nama Kota"
-                                        value="{{ old('kota') }}">
-                                    @error('kota')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Telepon --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,37 +72,13 @@
                                     </label>
                                     <input type="text" name="telepon"
                                         class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
-                                        placeholder="Contoh: 081234221314"
+                                        placeholder="Contoh: 081234xxx"
                                         value="{{ old('telepon') }}">
                                     @error('telepon')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
                                 </div>
-                            </div>
 
-                            {{-- DIVIDER --}}
-                            <div class="border-t border-gray-200"></div>
-
-                            {{-- ROW 3: STATUS & ALAMAT --}}
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
-
-                                {{-- Alamat Lengkap --}}
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-                                        Alamat Lengkap <span class="text-red-500">*</span>
-                                    </label>
-                                    <textarea name="alamat" rows="3" required
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
-                                        placeholder="Masukkan alamat lengkap cabang...">{{ old('alamat') }}</textarea>
-                                    @error('alamat')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                                
-                                {{-- Status Active --}}
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,29 +91,156 @@
                                         <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Nonaktif</option>
                                     </select>
                                 </div>
-
-
                             </div>
+
+                            <div class="border-t border-gray-200"></div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        Provinsi <span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="id_provinsi" id="id_provinsi" required
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out bg-white">
+                                        <option value="">Pilih Provinsi</option>
+                                    </select>
+                                    <input type="hidden" name="nama_provinsi" id="nama_provinsi" value="{{ old('nama_provinsi') }}">
+                                    @error('id_provinsi')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                        Kota / Kabupaten <span class="text-red-500">*</span>
+                                    </label>
+                                    <select name="id_kota" id="id_kota" disabled required
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out bg-gray-100 cursor-not-allowed">
+                                        <option value="">Pilih Provinsi Terlebih Dahulu</option>
+                                    </select>
+                                    <input type="hidden" name="nama_kota" id="nama_kota" value="{{ old('nama_kota') }}">
+                                    @error('nama_kota')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <svg class="w-4 h-4 inline-block mr-1 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                    </svg>
+                                    Alamat Lengkap <span class="text-red-500">*</span>
+                                </label>
+                                <textarea name="alamat" rows="3" required
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out"
+                                    placeholder="Masukkan nama jalan, gedung, no rumah...">{{ old('alamat') }}</textarea>
+                                @error('alamat')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                         </div>
 
-                        {{-- FOOTER ACTIONS --}}
-                        <div class="px-8 py-6 bg-gray-50 border-t border-gray-200 flex items-center justify-end gap-3">
+                        <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-end gap-3">
                             <a href="{{ route('admin.cabang.index') }}"
                                 class="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium text-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors">
                                 Batal
                             </a>
 
                             <button type="submit"
-                                class="px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 shadow-md transition-colors">
-                                <svg class="w-4 h-4 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
+                                class="px-5 py-2.5 rounded-lg bg-blue-600 text-white font-semibold text-sm
+           hover:bg-blue-700 shadow-md flex items-center justify-center">
                                 Simpan Cabang
                             </button>
                         </div>
+                    </div>
                 </form>
 
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const provinsiSelect = document.getElementById('id_provinsi');
+            const provinsiNamaInput = document.getElementById('nama_provinsi');
+            const kotaSelect = document.getElementById('id_kota');
+            const kotaNamaInput = document.getElementById('nama_kota');
+
+            const BASE_URL_API = 'https://www.emsifa.com/api-wilayah-indonesia/api';
+
+            fetch(`${BASE_URL_API}/provinces.json`)
+                .then(res => res.json())
+                .then(provinces => {
+                    provinsiSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
+
+                    provinces.forEach(province => {
+                        const option = document.createElement('option');
+                        option.value = province.id;
+                        option.textContent = province.name;
+                        provinsiSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Gagal memuat provinsi:', error);
+                    provinsiSelect.innerHTML = '<option value="">Gagal memuat provinsi</option>';
+                });
+
+            provinsiSelect.addEventListener('change', function() {
+                const provinceId = this.value;
+                const provinceName = this.options[this.selectedIndex]?.text || '';
+
+                provinsiNamaInput.value = provinceId ? provinceName : '';
+
+                kotaSelect.innerHTML = '<option value="">Memuat kota...</option>';
+                kotaSelect.disabled = true;
+                kotaSelect.classList.add('bg-gray-100', 'cursor-not-allowed');
+                kotaSelect.classList.remove('bg-white');
+                kotaNamaInput.value = '';
+
+                if (!provinceId) {
+                    kotaSelect.innerHTML = '<option value="">Pilih Provinsi Terlebih Dahulu</option>';
+                    return;
+                }
+
+                fetch(`${BASE_URL_API}/regencies/${provinceId}.json`)
+                    .then(res => res.json())
+                    .then(regencies => {
+                        kotaSelect.innerHTML = '<option value="">Pilih Kota / Kabupaten</option>';
+
+                        regencies.forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city.id;
+                            option.textContent = city.name;
+                            kotaSelect.appendChild(option);
+                        });
+
+                        kotaSelect.disabled = false;
+                        kotaSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                        kotaSelect.classList.add('bg-white');
+                    })
+                    .catch(error => {
+                        console.error('Gagal memuat kota:', error);
+                        kotaSelect.innerHTML = '<option value="">Gagal memuat kota</option>';
+                    });
+            });
+
+            kotaSelect.addEventListener('change', function() {
+                const kotaName = this.options[this.selectedIndex]?.text || '';
+                kotaNamaInput.value = this.value ? kotaName : '';
+            });
+
+        });
+    </script>
+    @endpush
 </x-app-layout>

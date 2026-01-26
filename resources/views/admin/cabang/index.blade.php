@@ -154,7 +154,7 @@
 
                                 {{-- Kota --}}
                                 <td class="px-6 py-3 text-sm text-gray-700">
-                                    {{ $item->kota }}
+                                    {{ $item->nama_kota }}
                                 </td>
 
                                 {{-- Telepon --}}

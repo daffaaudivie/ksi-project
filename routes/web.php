@@ -5,6 +5,7 @@ use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\TransaksiController;
 use App\Http\Controllers\Admin\CabangController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\TransaksiController as AdminTransaksiController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,12 +23,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
     Route::resource('cabang', CabangController::class);
-
-
-    // Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
-    // Route::resource('branches', \App\Http\Controllers\Admin\CabangController::class);
-    // Route::resource('customers', \App\Http\Controllers\Admin\CustomerController::class);
-    // Route::resource('transactions', \App\Http\Controllers\Admin\TransaksiController::class);
+    Route::resource('transaksi', AdminTransaksiController::class);
+    Route::get(
+        'transaksi-export',
+        [AdminTransaksiController::class, 'export']
+    )->name('transaksi.export');
 });
 
 Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {

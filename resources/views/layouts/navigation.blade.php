@@ -10,20 +10,20 @@ default => '/',
 };
 @endphp
 
-<div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-100">
-    <!-- Top Navigation Bar -->
+{{-- PERUBAHAN ADA DI BAWAH INI: --}}
+{{-- Menggunakan window.innerWidth >= 1024 (breakpoint lg) untuk menentukan default state --}}
+<div x-data="{ sidebarOpen: window.innerWidth >= 1024 }" class="min-h-screen bg-gray-100">
+
     <nav class="bg-white border-b border-gray-100 fixed w-full z-30 top-0">
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <!-- Sidebar Toggle Button -->
                     <button @click="sidebarOpen = !sidebarOpen" class="px-4 text-gray-500 focus:outline-none focus:text-gray-700">
                         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
 
-                    <!-- Logo -->
                     <div class="shrink-0 flex items-center ml-2">
                         <a href="{{ $dashboardRoute }}">
                             <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
@@ -31,9 +31,7 @@ default => '/',
                     </div>
                 </div>
 
-                <!-- Settings Dropdown -->
                 <div class="flex items-center space-x-3">
-                    <!-- User Name Display -->
                     <span class="text-sm font-medium text-gray-700 hidden sm:block">
                         {{ Auth::user()->name }}
                     </span>
@@ -67,13 +65,10 @@ default => '/',
         </div>
     </nav>
 
-    <!-- Sidebar -->
     <aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out z-20"
         :class="{ '-translate-x-full': !sidebarOpen, 'translate-x-0': sidebarOpen }">
         <div class="h-full overflow-y-auto py-4 flex flex-col">
-            <!-- Menu Items -->
             <div class="flex-1">
-                <!-- Dashboard Link -->
                 <div class="px-3 mb-2">
                     <a href="{{ $dashboardRoute }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('*.dashboard') ? 'bg-gray-100 text-blue-600' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +79,6 @@ default => '/',
                 </div>
 
                 @if($user->role === Role::ADMIN)
-                <!-- Admin Menu -->
                 <div class="px-3 py-2">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin Menu</p>
                 </div>
@@ -97,44 +91,37 @@ default => '/',
                         <span class="font-medium">Data User</span>
                     </a>
 
-                    <a href="{{ route('admin.cabang.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.branches.*') ? 'bg-gray-100 text-blue-600' : '' }}">
+                    <a href="{{ route('admin.cabang.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.cabang.*') ? 'bg-gray-100 text-blue-600' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                         <span class="font-medium">Data Cabang</span>
                     </a>
 
-                    <a href="{{ route('staff.transaksi.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('staff.transactions.index') ? 'bg-gray-100 text-blue-600' : '' }}">
+                    <a href="{{ route('admin.transaksi.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('staff.transaksi.index') ? 'bg-gray-100 text-blue-600' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
                         <span class="font-medium">Data Pelanggan</span>
                     </a>
 
-                    <a href="" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('admin.transactions.*') ? 'bg-gray-100 text-blue-600' : '' }}">
-                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                        </svg>
-                        <span class="font-medium">Data Transaksi</span>
-                    </a>
                 </div>
                 @endif
 
                 @if($user->role === Role::STAFF)
-                <!-- Staff Menu -->
                 <div class="px-3 py-2">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Staff Menu</p>
                 </div>
 
                 <div class="px-3 space-y-1">
-                    <a href="{{ route('staff.transaksi.create') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('staff.transactions.create') ? 'bg-gray-100 text-blue-600' : '' }}">
+                    <a href="{{ route('staff.transaksi.create') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('staff.transaksi.create') ? 'bg-gray-100 text-blue-600' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                         <span class="font-medium">Tambah Data</span>
                     </a>
 
-                    <a href="{{ route('staff.transaksi.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('staff.transactions.index') ? 'bg-gray-100 text-blue-600' : '' }}">
+                    <a href="{{ route('staff.transaksi.index') }}" class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 {{ request()->routeIs('staff.transaksi.index') ? 'bg-gray-100 text-blue-600' : '' }}">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                         </svg>
@@ -144,7 +131,6 @@ default => '/',
                 @endif
             </div>
 
-            <!-- Logout Button at Bottom -->
             <div class="px-3 pt-4 border-t border-gray-200">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -171,9 +157,10 @@ default => '/',
         class="fixed inset-0 bg-gray-600 bg-opacity-75 z-10 md:hidden">
     </div>
 
-    <!-- Main Content -->
     <main class="pt-16 transition-all duration-300 ease-in-out"
         :class="{ 'lg:pl-64': sidebarOpen, 'lg:pl-0': !sidebarOpen }">
         {{ $slot }}
     </main>
+
+    @stack('scripts')
 </div>

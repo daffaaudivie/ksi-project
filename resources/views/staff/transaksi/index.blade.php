@@ -69,7 +69,7 @@
 
                             <!-- Tipe Customer -->
                             <div class="w-full lg:w-40">
-                                <select name="tipe_customer" class="w-full rounded-md ...">
+                                <select name="tipe_customer" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                     <option value="">Semua Tipe</option>
                                     @foreach(\App\Enums\TipeCustomer::cases() as $tipe)
                                     <option value="{{ $tipe->value }}"
@@ -82,7 +82,7 @@
 
                             <!-- Sumber Informasi -->
                             <div class="w-full lg:w-40">
-                                <select name="sumber_informasi" class="w-full rounded-md ...">
+                                <select name="sumber_informasi" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                                     <option value="">Sumber Informasi</option>
                                     @foreach(\App\Enums\SumberInformasi::cases() as $informasi)
                                     <option value="{{ $informasi->value }}"
@@ -154,8 +154,7 @@
                                 <th class="px-4 py-3 text-center text-xs font-bold text-gray-600 uppercase">Tanggal</th>
                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Nama Customer</th>
                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Tipe Customer</th>
-                                <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">No. HP</th>
-                                <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Alamat</th>
+                                <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Kota</th>
                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Sumber Informasi</th>
                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Aksi</th>
                             </tr>
@@ -171,12 +170,12 @@
                                 </td>
 
                                 {{-- Hari --}}
-                                <td class="px-4 py-3 text-center text-sm text-gray-600">
+                                <td class="px-4 py-3 text-left text-sm text-gray-700 font-medium capitalize">
                                     {{ $item->hari }}
                                 </td>
 
                                 {{-- Tanggal --}}
-                                <td class="px-4 py-3 text-center text-sm text-gray-700 font-medium">
+                                <td class="px-4 py-3 text-left text-sm text-gray-700 font-medium">
                                     {{ $item->tanggal->format('d/m/Y') }}
                                 </td>
 
@@ -190,30 +189,28 @@
                                     @php
                                     $tipe = $item->tipe_customer;
                                     $badge = match ($tipe) {
-                                    \App\Enums\TipeCustomer::PERORANGAN => 'bg-gray-100 text-gray-800',
-                                    \App\Enums\TipeCustomer::ROMBONGAN => 'bg-gray-100 text-gray-800',
-                                    \App\Enums\TipeCustomer::FLEET => 'bg-gray-100 text-gray-800',
+                                    \App\Enums\TipeCustomer::PERORANGAN => 'bg-green-100 text-green-800',
+                                    \App\Enums\TipeCustomer::ROMBONGAN => 'bg-purple-100 text-purple-800',
+                                    \App\Enums\TipeCustomer::FLEET => 'bg-yellow-100 text-yellow-800',
+                                    default => 'bg-gray-100 text-gray-800'
                                     };
                                     @endphp
                                     <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $badge }}">
                                         {{ $tipe->label() }}
+                                        @if($item->is_rombongan && $item->jumlah_rombongan)
+                                        ({{ $item->jumlah_rombongan }} orang)
+                                        @endif
                                     </span>
                                 </td>
 
-                                {{-- No HP --}}
-                                <td class="px-6 py-3 text-sm text-gray-700">
-                                    {{ $item->customer->no_hp }}
-                                </td>
-
-                                {{-- Alamat --}}
-                                <td class="px-6 py-3 text-sm text-gray-600 max-w-xs truncate"
-                                    title="{{ $item->customer->alamat_utama }}">
-                                    {{ $item->customer->alamat_utama ?? '-' }}
+                                {{-- Kota --}}
+                                <td class="px-6 py-3 text-sm text-gray-600 text-left">
+                                    {{ $item->customer->nama_kota ?? '-' }}
                                 </td>
 
                                 {{-- Sumber Informasi --}}
                                 <td class="px-6 py-3 text-left text-sm text-gray-600">
-                                    {{ $item->sumber_informasi }}
+                                    {{ $item->sumber_informasi->label() }}
                                 </td>
 
                                 {{-- Aksi --}}
@@ -230,13 +227,13 @@
                                         </a>
 
                                         {{-- Edit --}}
-                                        <!-- <a href="{{ route('staff.transaksi.edit', $item->id) }}"
+                                        <a href="{{ route('staff.transaksi.edit', $item->id) }}"
                                             class="text-gray-500 hover:text-indigo-600 transition-colors"
                                             title="Edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                             </svg>
-                                        </a> -->
+                                        </a>
 
                                         {{-- Hapus --}}
                                         <form action="{{ route('staff.transaksi.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')" class="inline-block">
@@ -254,7 +251,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="9" class="px-6 py-10 text-center text-gray-500">
+                                <td colspan="8" class="px-6 py-10 text-center text-gray-500">
                                     Belum ada data pelanggan
                                 </td>
                             </tr>

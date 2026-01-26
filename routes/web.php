@@ -8,10 +8,22 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\TransaksiController as AdminTransaksiController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Enums\Role;
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+
+        return match ($user->role) {
+            Role::ADMIN => redirect()->route('admin.dashboard'),
+            Role::STAFF => redirect()->route('staff.dashboard'),
+            default => redirect()->route('login'),
+        };
+    }
+
     return redirect()->route('login');
-});
+})->name('home');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -24,19 +36,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', UserController::class);
     Route::resource('cabang', CabangController::class);
     Route::resource('transaksi', AdminTransaksiController::class);
-    Route::get(
-        'transaksi-export',
-        [AdminTransaksiController::class, 'export']
-    )->name('transaksi.export');
+    Route::get('transaksi-export', [AdminTransaksiController::class, 'export'])->name('transaksi.export');
 });
 
 Route::middleware(['auth', 'role:staff'])->prefix('staff')->name('staff.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('transaksi', TransaksiController::class);
-    Route::get(
-        'transaksi-export',
-        [TransaksiController::class, 'export']
-    )->name('transaksi.export');
+    Route::get('transaksi-export', [TransaksiController::class, 'export'])->name('transaksi.export');
 });
 
 require __DIR__ . '/auth.php';

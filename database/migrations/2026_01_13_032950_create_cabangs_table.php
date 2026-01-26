@@ -14,9 +14,9 @@ return new class extends Migration
             $table->string('jenis_bisnis', 50);
             $table->text('alamat');
             $table->string('telepon', 20)->nullable();
-            $table->string('kota', 50);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
             $table->index('nama_cabang');
         });
     }

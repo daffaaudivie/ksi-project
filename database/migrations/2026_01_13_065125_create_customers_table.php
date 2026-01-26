@@ -8,16 +8,30 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('customer', function (Blueprint $table) {
             $table->id();
             $table->string('nama_customer', 150);
             $table->string('no_hp', 20)->unique();
-            $table->string('alamat_utama', 255)->nullable();
-            $table->string('tipe_default', 50)->default('Perorangan');
-            $table->string('email', 100)->nullable();
+            $table->string('id_provinsi', 10)->nullable();
+            $table->string('nama_provinsi', 100)->nullable();
+            $table->string('id_kota', 10)->nullable();
+            $table->string('nama_kota', 100)->nullable();
+            $table->string('email', 100)->unique()->nullable();
             $table->text('catatan')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->foreignId('created_by')
+                ->nullable()
+                ->constrained('users', 'id')
+                ->onDelete('set null');
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users', 'id')
+                ->onDelete('set null');
+            $table->foreignId('deleted_by')
+                ->nullable()
+                ->constrained('users', 'id')
+                ->onDelete('set null');
             $table->index('no_hp');
             $table->index('nama_customer');
         });
@@ -25,6 +39,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('customer');
     }
 };
